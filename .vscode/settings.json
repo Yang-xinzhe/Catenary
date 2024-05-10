@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "list.h": "c",
+        "stat.h": "c",
+        "string.h": "c",
+        "encoder_linear.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c"
+    }
+}
