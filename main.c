@@ -99,7 +99,7 @@ void *save_data(void *arg)
             strcpy(current_date, date_str);
             sprintf(filename, "./data_%s.csv", date_str);
             // 创建新文件
-            int fd_csv = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
+            int fd_csv = open(filename, O_RDWR | O_CREAT | O_APPEND, 0666);
             if (fd_csv < 0)
             {
                 perror("Failed to open/create csv file");

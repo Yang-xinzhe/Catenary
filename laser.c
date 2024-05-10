@@ -51,6 +51,11 @@ int uart_init_laser(int fd, struct termios options)
 // 解析激光传感器返回的数据
 void parseLaserSensorResponse(DATA *data, const char *recv_buf)
 {
+    if (recv_buf == NULL || recv_buf[0] == '\0')
+    {
+        printf("Received buffer is empty. Skipping data parsing.\n");
+        return;
+    }
     int foundError = 0;
     int i;
     for (i = 0; errorLookupTable[i].errorCode != NULL; ++i)
@@ -66,8 +71,8 @@ void parseLaserSensorResponse(DATA *data, const char *recv_buf)
     // 如果没有找到错误码，则尝试解析距离和信号质量
     if (!foundError)
     {
-        char *distanceStart = strchr(recv_buf, ' ') + 1;           // 定位到距离数据的起始位置
-        char *signalQualityStart = strchr(distanceStart, ',') + 1; // 定位到信号质量数据的起始位置
+        char *distanceStart = strstr(recv_buf, ": ") + 2;  // 定位到距离数据的起始位置
+        char *signalQualityStart = strstr(distanceStart, ",") + 1;  // 定位到信号质量数据的起始位置
 
         // 验证数据格式
         if (distanceStart != NULL && signalQualityStart != NULL)
@@ -80,7 +85,7 @@ void parseLaserSensorResponse(DATA *data, const char *recv_buf)
             signalQualityStr[3] = '\0';
 
             double distance = atof(distanceStr);
-            int quality = atoi(signalQualityStr);
+            //int quality = atoi(signalQualityStr);
 
             // lastValidDistance = distance;  // 更新最后一次成功读取的距离
             data->distance = distance;
