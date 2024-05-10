@@ -157,7 +157,7 @@ int laser_data(DATA *data)
     }
     uart_init_laser(fd_laser, options_laser);
     char recv_buf[100] = {0};
-    slow_messure(fd_laser);
+    auto_messure(fd_laser);
     sleep(1);
     int ret;
     if ((ret = read(fd_laser, recv_buf, sizeof(recv_buf) - 1)) > 0)
